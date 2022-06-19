@@ -14,5 +14,22 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+
+    if(!auth()->user()){
+        return redirect('/auth/login');
+    }else{
+        return redirect('inicio');
+    }
+
+});
+
+Route::get('/inicio', function () {
     return view('welcome');
+});
+
+
+Route::prefix('auth')->group(function () {
+    Route::get('/create', function () {
+        return view('auth.register');
+    });
 });
