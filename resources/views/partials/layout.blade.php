@@ -9,6 +9,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('css/global.css') }}">
+
+    <meta name="csrf-token" content="{!! csrf_token() !!}">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+
+
 </head>
 <body>
 
@@ -16,19 +23,17 @@
 
     @auth()
         {{-- Sidebar   --}}
-        <div class="min-vh-100 d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
+        <div class="min-vh-100 d-flex flex-column flex-shrink-0 p-3 text-white bg-dark">
 
             <a href="{{ url('inicio') }}"
                class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                <svg class="bi pe-none me-2" width="40" height="32">
-                    <use xlink:href="#bootstrap"/>
-                </svg>
                 <img src="{{ asset('img/torrens-logo.png') }}" alt="Logo" class="img-logo-sidebar">
             </a>
             <br>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
-                    <a href="{{ url('inicio') }}" class="nav-link {{ request()->is('inicio') ? 'active':'' }}"
+                    <a href="{{ url('inicio') }}"
+                       class="nav-link text-white {{ request()->is('inicio') ? 'active':'' }}"
                        aria-current="page">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                              class="bi bi-house-fill pe-none me-2" viewBox="0 0 16 16">
@@ -41,7 +46,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ url('users') }}" class="nav-link text-white {{ request()->is('users') ? 'active':'' }}">
+                    <a href="{{ url('users/list') }}"
+                       class="nav-link text-white {{ request()->is('users/list') ? 'active':'' }}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                              class="bi bi-person-lines-fill pe-none me-2" viewBox="0 0 16 16">
                             <path
@@ -135,9 +141,7 @@
         @endauth
 
         <div class="col-12">
-            <div class="container">
-                @yield('content')
-            </div>
+            @yield('content')
         </div>
     </div>
 </div>
@@ -149,6 +153,10 @@
         crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+
 
 <script src="{{asset('js/global.js')}}"></script>
 </body>

@@ -14,7 +14,7 @@ return new class extends Migration
      */
     public function up()
     {
-        User::factory()->create();
+        User::factory(10)->create();
 
     }
 
