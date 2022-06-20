@@ -1,0 +1,7 @@
+.img-logo-sidebar{
+    width: 150px;
+}
+
+.dropdown-toggle::after{
+    display: none;
+}

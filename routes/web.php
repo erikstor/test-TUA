@@ -24,8 +24,8 @@ Route::get('/', function () {
 });
 
 Route::get('/inicio', function () {
-    return view('welcome');
-});
+    return view('dashboard.home');
+})->middleware('auth');
 
 
 Route::prefix('auth')->group(function () {
