@@ -58,34 +58,119 @@ $(document).ready(() => {
             },
         })
 
-
-        // $("#indexUsers").DataTable({
-        //     destroy: true,
-        //     responsive: true,
-        //     searching: true,
-        //     orderable: false,
-        //     lengthChange: false,
-        //     processing: true,
-        //     serverSide: true,
-        //     pageLength: 10,
-        //     autoWidth: true,
-        //     ajax: {
-        //         url: url,
-        //         data: function (d) {
-        //             delete d.columns;
-        //             return {
-        //                 start: d.start,
-        //                 length: d.length,
-        //                 search: d.search.value,
-        //                 draw: d.draw,
-        //             };
-        //         },
-        //         type: "get",
-        //     },
-        //
-        // });
+    }
 
 
+    if (window.location.pathname === '/tasks/list') {
+
+
+        $(document).on('click', '.showButton', ($event) => {
+
+            url = $event.target.dataset.url
+            $("#exampleModalLabel").html('')
+            $("#bodyModal").html('')
+            $("#buttonSave").html('');
+
+            if ($event.target.dataset.type === 'add' || $event.target.dataset.type === 'edit') {
+                $("#exampleModalLabel").html(
+                    `
+                    <div class="form-floating mb-3">
+                      <input type="text" class="form-control" id="floatingInput" placeholder="Title..." required>
+                      <label for="floatingInput">Title...</label>
+                    </div>
+                `
+                )
+                $("#bodyModal").html(`
+                    <div class="form-floating">
+                      <textarea class="form-control" placeholder="Description..." id="floatingTextarea" required></textarea>
+                      <label for="floatingTextarea">Description</label>
+                    </div>
+                `)
+                $("#buttonSave").html(`
+                        <button
+                        type="button"
+                        class="btn btn-primary"
+                        id="saveModal"
+                        data-id=""
+                        data-type="${$event.target.dataset.type}"
+                        data-url="${$event.target.dataset.send}"
+                        >
+                            Save changes
+                        </button>`);
+            }
+
+
+            if ($event.target.dataset.type === 'show' || $event.target.dataset.type === 'edit') {
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    success: function (resp) {
+                        if ($event.target.dataset.type === 'show') {
+                            $("#exampleModalLabel").html(resp.title)
+                            $("#bodyModal").html(resp.description)
+                        } else {
+                            $("#floatingInput").val(resp.title)
+                            $("#floatingTextarea").val(resp.description)
+                            $("#saveModal").data('id', resp.id)
+                        }
+                    }
+                })
+            }
+
+        })
+
+
+        $(document).on('click', '#buttonSave', ($event) => {
+
+            url = $event.target.dataset.url
+
+            let type = 'POST'
+            const data = {
+                title: $("#floatingInput").val(),
+                description: $("#floatingTextarea").val(),
+            }
+
+            if ($event.target.dataset.type === 'edit') {
+                data.id = $("#saveModal").data('id')
+                type = 'PUT'
+            }
+
+            $("#error-panel").addClass('d-none');
+            $("#error-content").html('');
+
+            $.ajax({
+                url: url,
+                type,
+                data,
+                success: function () {
+                    Swal.fire({
+                        title: 'Ok!',
+                        text: 'We save your changes',
+                        icon: 'success',
+                        confirmButtonText: 'Cool'
+                    })
+                },
+                error: function (resp) {
+                    Swal.fire({
+                        title: 'Ups!',
+                        text: `We can't save your changes`,
+                        icon: 'error',
+                        confirmButtonText: ':c'
+                    })
+
+                    $("#error-panel").removeClass('d-none');
+
+                    let msg = ``
+                    for (const item in resp.responseJSON.errors) {
+                        msg += `<li>${resp.responseJSON.errors[item]}</li>`
+                    }
+
+                    $("#error-content").html(msg);
+
+                },
+            })
+
+        })
     }
 
 })

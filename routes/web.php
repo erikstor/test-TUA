@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\UserController;
+use \App\Http\Controllers\TaskController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,10 +39,21 @@ Route::prefix('auth')->group(function () {
 
 Route::prefix('users')->group(function () {
 
-//    Route::get('/', UserController::class, '');
+    Route::get('/list', [UserController::class, 'index'])->middleware('auth');
+    Route::get('/get-users', [UserController::class, 'getUserList'])->name('get-user');
 
-    Route::get('/list', [UserController::class, 'index'] )->middleware('auth');
-    Route::get('/get-users', [UserController::class, 'getUserList'] )->name('get-user');
+});
+
+
+Route::prefix('tasks')->group(function () {
+
+    Route::get('/', function () {
+        return redirect('tasks/list');
+    })->middleware('auth');
+    Route::get('/list', [TaskController::class, 'index'])->middleware('auth');
+    Route::get('/find-task/{task}', [TaskController::class, 'show'])->name('find-task')->middleware('auth');
+    Route::post('/store', [TaskController::class, 'store'])->name('store-task')->middleware('auth');
+
 
 
 });
