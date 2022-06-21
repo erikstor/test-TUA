@@ -19,7 +19,6 @@ class TaskController extends Controller
         $tasks = Task::where('user_id', auth()->user()->id)->select([
             'id',
             'title',
-            'status',
         ])->get();
 
         return view('tasks.list', ['tasks' => $tasks]);
@@ -56,7 +55,6 @@ class TaskController extends Controller
         try {
             $task->title = $request->title;
             $task->description = $request->description;
-            $task->status = 1;
             $task->user_id = auth()->user()->id;
 
             $task->save();

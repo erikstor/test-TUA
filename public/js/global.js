@@ -77,6 +77,10 @@ $(document).ready(() => {
 
         $("#taksList").DataTable({
             responsive: true,
+            columns: [
+                {"width": "85%"},
+                null,
+            ]
         })
 
         $(document).on('click', '.showButton', ($event) => {

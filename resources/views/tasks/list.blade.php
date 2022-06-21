@@ -48,7 +48,6 @@
                 <thead>
                 <tr>
                     <th scope="col">Title</th>
-                    <th scope="col">Status</th>
                     <th scope="col"></th>
                 </tr>
                 </thead>
@@ -56,16 +55,6 @@
                 @foreach($tasks as $task)
                     <tr>
                         <td>{{$task->title}}</td>
-                        <td>
-                            @switch($task->status)
-                                @case(1) Por iniciar
-                                @break
-                                @case(2) En curso
-                                @break
-                                @case(2) Finalizada
-                                @break
-                            @endswitch
-                        </td>
                         <td>
                             <button type="button"
                                     title="Show more..."
