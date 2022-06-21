@@ -10,16 +10,16 @@ $(document).ready(() => {
     });
 
 
-    // setInterval(() => {
-    //     url = $("#quantity_tasks").data('url')
-    //     $.ajax({
-    //         url: url,
-    //         type: "GET",
-    //         success: function (resp) {
-    //             $("#quantity_tasks").html(resp)
-    //         }
-    //     })
-    // }, 1000)
+    setInterval(() => {
+        url = $("#quantity_tasks").data('url')
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: function (resp) {
+                $("#quantity_tasks").html(resp)
+            }
+        })
+    }, 1000)
 
 
     $(document).on('click', '#send-logout', () => {

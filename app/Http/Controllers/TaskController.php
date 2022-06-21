@@ -16,7 +16,10 @@ class TaskController extends Controller
     {
 
         // todo hacer la parte de administrador y de usuario normal
-        $tasks = Task::where('user_id', auth()->user()->id)->select([
+        $tasks = Task::where([
+            ['user_id', auth()->user()->id],
+            ['deleted_at', null]
+        ])->select([
             'id',
             'title',
         ])->get();
