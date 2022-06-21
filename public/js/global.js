@@ -213,8 +213,10 @@ $(document).ready(() => {
                 if (result.isConfirmed) {
                     $.ajax({
                         url: url,
-                        type: 'DELETE',
-                        data,
+                        type: 'POST',
+                        data:{
+                            _method:"DELETE"
+                        },
                         success: function () {
                             Swal.fire({
                                 title: 'Ok!',

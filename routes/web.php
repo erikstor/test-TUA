@@ -39,8 +39,8 @@ Route::prefix('auth')->group(function () {
 
 Route::prefix('users')->group(function () {
 
-    Route::get('/list', [UserController::class, 'index'])->middleware('auth');
-    Route::get('/get-users', [UserController::class, 'getUserList'])->name('get-user');
+    Route::get('/list', [UserController::class, 'index'])->can('users/list')->middleware('auth');
+    Route::get('/get-users', [UserController::class, 'getUserList'])->can('users/get-users')->name('get-user');
 
 });
 
@@ -50,13 +50,12 @@ Route::prefix('tasks')->group(function () {
     Route::get('/', function () {
         return redirect('tasks/list');
     })->middleware('auth');
-    Route::get('/list', [TaskController::class, 'index'])->middleware('auth');
-    Route::get('/get-quantity-task', [TaskController::class, 'getQuantityTasks'])->name('get-quantity-task')->middleware('auth');
-    Route::get('/find-task/{task}', [TaskController::class, 'show'])->name('find-task')->middleware('auth');
-    Route::put('/update/{task}', [TaskController::class, 'update'])->name('update-task')->middleware('auth');
-    Route::delete('/delete/{task}', [TaskController::class, 'destroy'])->name('erase-task')->middleware('auth');
-    Route::post('/store', [TaskController::class, 'store'])->name('store-task')->middleware('auth');
-
+    Route::get('/list', [TaskController::class, 'index'])->can('task/list')->middleware('auth');
+    Route::get('/get-quantity-task', [TaskController::class, 'getQuantityTasks'])->name('get-quantity-task')->can('task/get-quantity-task')->middleware('auth');
+    Route::get('/find-task/{task}', [TaskController::class, 'show'])->name('find-task')->can('task/find-task/{task}')->middleware('auth');
+    Route::put('/update/{task}', [TaskController::class, 'update'])->name('update-task')->can('task/update/{task}')->middleware('auth');
+    Route::delete('/delete/{task}', [TaskController::class, 'destroy'])->name('erase-task')->can('task/delete/{task}')->middleware('auth');
+    Route::post('/store', [TaskController::class, 'store'])->name('store-task')->can('task/store')->middleware('auth');
 
 
 });
