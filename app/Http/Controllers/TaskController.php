@@ -26,6 +26,15 @@ class TaskController extends Controller
     }
 
 
+    public function getQuantityTasks()
+    {
+
+        $tasks = Task::where('user_id', auth()->user()->id)->get()->count();
+
+        return response()->json($tasks);
+    }
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -89,7 +98,26 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        //
+
+        $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required',
+            'id' => 'required|integer:tasks'
+        ]);
+
+        //todo agregar transacciones
+
+        try {
+            $task->title = $request->title;
+            $task->description = $request->description;
+
+            $task->save();
+        } catch (\Exception $exception) {
+            return response()->json(["code" => $exception->getCode(), "msg" => $exception->getMessage()]);
+        }
+
+        return response()->json('ok');
+
     }
 
     /**
@@ -100,6 +128,22 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+
+        //todo agregar transacciones
+
+        try {
+
+            if(!$task->id){
+                throw new \Error('Tasks Not Found', 404);
+            }
+
+            $task->delete();
+
+        } catch (\Exception $exception) {
+            return response()->json(["code" => $exception->getCode(), "msg" => $exception->getMessage()]);
+        }
+
+        return response()->json('ok');
+
     }
 }

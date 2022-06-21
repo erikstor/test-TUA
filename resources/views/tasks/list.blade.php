@@ -13,7 +13,8 @@
                 </div>
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button id="btn-close-modal" type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="bodyModal">
                 </div>
@@ -81,19 +82,22 @@
                             </button>
                             <button type="button" title="Edit task"
                                     data-url="{{route('find-task', $task->id)}}"
+                                    data-send="{{ route('update-task', $task->id) }}"
                                     data-type="edit"
                                     data-bs-toggle="modal"
                                     data-bs-target="#exampleModal"
                                     class="btn btn-sm btn-info text-light showButton">
                                 <i class="fa-solid fa-pen-to-square" data-type="edit"
                                    data-url="{{route('find-task', $task->id)}}"
+                                   data-send="{{ route('update-task', $task->id) }}"
                                 ></i>
                             </button>
                             <button type="button" title="Cancel task"
-                                    data-url="{{route('find-task', $task->id)}}"
+                                    data-url="{{route('erase-task', $task->id)}}"
                                     data-type="trash"
-                                    class="btn btn-sm btn-danger">
-                                <i class="fa-solid fa-trash-can" data-type="trash"></i>
+                                    class="btn btn-sm btn-danger btn-erase">
+                                <i class="fa-solid fa-trash-can" data-type="trash"
+                                   data-url="{{route('erase-task', $task->id)}}"></i>
                             </button>
                         </td>
                     </tr>

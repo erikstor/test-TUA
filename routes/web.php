@@ -51,7 +51,10 @@ Route::prefix('tasks')->group(function () {
         return redirect('tasks/list');
     })->middleware('auth');
     Route::get('/list', [TaskController::class, 'index'])->middleware('auth');
+    Route::get('/get-quantity-task', [TaskController::class, 'getQuantityTasks'])->name('get-quantity-task')->middleware('auth');
     Route::get('/find-task/{task}', [TaskController::class, 'show'])->name('find-task')->middleware('auth');
+    Route::put('/update/{task}', [TaskController::class, 'update'])->name('update-task')->middleware('auth');
+    Route::delete('/delete/{task}', [TaskController::class, 'destroy'])->name('erase-task')->middleware('auth');
     Route::post('/store', [TaskController::class, 'store'])->name('store-task')->middleware('auth');
 
 

@@ -10,6 +10,18 @@ $(document).ready(() => {
     });
 
 
+    // setInterval(() => {
+    //     url = $("#quantity_tasks").data('url')
+    //     $.ajax({
+    //         url: url,
+    //         type: "GET",
+    //         success: function (resp) {
+    //             $("#quantity_tasks").html(resp)
+    //         }
+    //     })
+    // }, 1000)
+
+
     $(document).on('click', '#send-logout', () => {
         $('#logout-form').submit()
     })
@@ -63,6 +75,9 @@ $(document).ready(() => {
 
     if (window.location.pathname === '/tasks/list') {
 
+        $("#taksList").DataTable({
+            responsive: true,
+        })
 
         $(document).on('click', '.showButton', ($event) => {
 
@@ -149,6 +164,13 @@ $(document).ready(() => {
                         icon: 'success',
                         confirmButtonText: 'Cool'
                     })
+
+                    $("#btn-close-modal").click();
+
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 1000)
+
                 },
                 error: function (resp) {
                     Swal.fire({
@@ -171,6 +193,65 @@ $(document).ready(() => {
             })
 
         })
+
+
+        $(document).on('click', '.btn-erase', ($event) => {
+
+            url = $event.target.dataset.url
+
+            Swal.fire({
+                title: 'Do you want to save the changes ?',
+                showDenyButton: true,
+                confirmButtonText: 'Yes',
+                denyButtonText: `Cancel`,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: url,
+                        type: 'DELETE',
+                        data,
+                        success: function () {
+                            Swal.fire({
+                                title: 'Ok!',
+                                text: 'We save your changes',
+                                icon: 'success',
+                                confirmButtonText: 'Cool'
+                            })
+
+                            $("#btn-close-modal").click();
+
+                            setTimeout(() => {
+                                window.location.reload()
+                            }, 1000)
+
+                        },
+                        error: function (resp) {
+                            Swal.fire({
+                                title: 'Ups!',
+                                text: `We can't save your changes`,
+                                icon: 'error',
+                                confirmButtonText: ':c'
+                            })
+
+                            $("#error-panel").removeClass('d-none');
+
+                            let msg = ``
+                            for (const item in resp.responseJSON.errors) {
+                                msg += `<li>${resp.responseJSON.errors[item]}</li>`
+                            }
+
+                            $("#error-content").html(msg);
+
+                        },
+                    })
+                }
+
+            })
+
+
+        })
+
     }
 
 })
