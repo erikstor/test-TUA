@@ -69,25 +69,32 @@
                                    data-url="{{route('find-task', $task->id)}}"
                                 ></i>
                             </button>
-                            <button type="button" title="Edit task"
-                                    data-url="{{route('find-task', $task->id)}}"
-                                    data-send="{{ route('update-task', $task->id) }}"
-                                    data-type="edit"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal"
-                                    class="btn btn-sm btn-info text-light showButton">
-                                <i class="fa-solid fa-pen-to-square" data-type="edit"
-                                   data-url="{{route('find-task', $task->id)}}"
-                                   data-send="{{ route('update-task', $task->id) }}"
-                                ></i>
-                            </button>
-                            <button type="button" title="Cancel task"
-                                    data-url="{{route('erase-task', $task->id)}}"
-                                    data-type="trash"
-                                    class="btn btn-sm btn-danger btn-erase">
-                                <i class="fa-solid fa-trash-can" data-type="trash"
-                                   data-url="{{route('erase-task', $task->id)}}"></i>
-                            </button>
+                            @if(auth()->user()->hasRole('Guest'))
+                                <button type="button" title="Edit task"
+                                        data-url="{{route('find-task', $task->id)}}"
+                                        data-send="{{ route('update-task', $task->id) }}"
+                                        data-type="edit"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal"
+                                        class="btn btn-sm btn-info text-light showButton">
+                                    <i class="fa-solid fa-pen-to-square" data-type="edit"
+                                       data-url="{{route('find-task', $task->id)}}"
+                                       data-send="{{ route('update-task', $task->id) }}"
+                                    ></i>
+                                </button>
+                            @endif
+
+                            @if(auth()->user()->hasRole('Guest'))
+                                <button type="button" title="Cancel task"
+                                        data-url="{{route('erase-task', $task->id)}}"
+                                        data-type="trash"
+                                        class="btn btn-sm btn-danger btn-erase">
+                                    <i class="fa-solid fa-trash-can" data-type="trash"
+                                       data-url="{{route('erase-task', $task->id)}}"></i>
+                                </button>
+                            @endif
+
+
                         </td>
                     </tr>
                 @endforeach

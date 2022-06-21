@@ -15,14 +15,23 @@ class TaskController extends Controller
     public function index()
     {
 
-        // todo hacer la parte de administrador y de usuario normal
-        $tasks = Task::where([
-            ['user_id', auth()->user()->id],
-            ['deleted_at', null]
-        ])->select([
-            'id',
-            'title',
-        ])->get();
+        if (auth()->user()->hasRole('Administrator')) {
+            $tasks = Task::where([
+                ['deleted_at', null]
+            ])->select([
+                'id',
+                'title',
+            ])->get();
+        } else {
+            $tasks = Task::where([
+                ['user_id', auth()->user()->id],
+                ['deleted_at', null]
+            ])->select([
+                'id',
+                'title',
+            ])->get();
+        }
+
 
         return view('tasks.list', ['tasks' => $tasks]);
     }
@@ -134,7 +143,7 @@ class TaskController extends Controller
 
         try {
 
-            if(!$task->id){
+            if (!$task->id) {
                 throw new \Error('Tasks Not Found', 404);
             }
 
